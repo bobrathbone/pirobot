@@ -1,0 +1,12 @@
+light-on  0
+wait 2
+base-anti-clockwise 1
+base-clockwise 1
+shoulder-down 0.5
+shoulder-up 0.6
+elbow-down 0.5
+elbow-up 0.6
+wrist-down 0.5
+grip-close 1.7
+wrist-up 0.5
+grip-open 1.7
