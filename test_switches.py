@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Raspberry Pi Maplin Robot Arm
-# $Id: test_switches.py,v 1.2 2013/08/29 06:18:29 bob Exp $
+# $Id: test_switches.py,v 1.3 2022/04/10 06:40:11 bob Exp $
 #
 # Author : Bob Rathbone
 # Site   : http://www.bobrathbone.com
@@ -60,7 +60,7 @@ def setupSwitches():
 
 # Call back routine called by switch events
 def switch_event(switch):
-	print "Switch event " + str(switch)
+	print ("Switch event " + str(switch))
 	return
 
 

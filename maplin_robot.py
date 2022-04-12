@@ -1,10 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Raspberry Pi Maplin Robot Arm
-# $Id: maplin_robot.py,v 1.1 2013/08/12 10:34:02 bob Exp $
+# $Id: maplin_robot.py,v 1.2 2022/04/10 09:43:08 bob Exp $
 #
 # Author : Bob Rathbone
 # Site   : http://www.bobrathbone.com
 
+# Run: sudo apt-get install python3-pygame
  
 import pygame
 import usb.core
@@ -30,7 +31,7 @@ elbow_command = 0
     
 # Wait for a joystick
 while pygame.joystick.get_count() == 0:
-  print 'waiting for joystick count = %i' % pygame.joystick.get_count()
+  print ('waiting for joystick count = %i' % pygame.joystick.get_count())
   time.sleep(10)
   pygame.joystick.quit()
   pygame.joystick.init()
@@ -38,7 +39,7 @@ while pygame.joystick.get_count() == 0:
 j = pygame.joystick.Joystick(0)
 j.init()
  
-print 'Initialized Joystick : %s' % j.get_name()
+print ('Initialized Joystick : %s' % j.get_name())
 
 armFound = False
 
@@ -46,7 +47,7 @@ while not armFound:
   dev = usb.core.find(idVendor=0x1267, idProduct=0x0000)
  
   if dev is None:
-    print 'Arm not found. Waiting'
+    print ('Arm not found. Waiting')
     time.sleep(10)
   else:
     armFound = True
@@ -84,7 +85,7 @@ def setcommand(axis_val):
 def buildcommand(shoulc,basec,elbowc,wristc,gripc,lightc):
     byte1 = shoulc + elbowc +  wristc + gripc
     comm_bytes = (byte1, basec, lightc)
-    #print "Command = " + str(comm_bytes)
+    print ("Command = " + str(comm_bytes))
     return comm_bytes
     
 def processArm(event):
@@ -97,7 +98,7 @@ def processArm(event):
             else:
               lightc = 0
       elif event.type == pygame.JOYAXISMOTION:
-	#print "event.value = " + str(event.value)
+      #print ("event.value = " + str(event.value))
         if event.axis == PS3_AXIS_LEFT_VERTICAL:
           shoulder = event.value
         elif event.axis == PS3_AXIS_LEFT_HORIZONTAL:
@@ -139,7 +140,7 @@ def processArm(event):
                                   
         # If the command has changed, send out the new one
         if newcommand != command:
-	    print "Command = " + str(newcommand)
+            print ("Command = " + str(newcommand))
             dev.ctrl_transfer(0x40, 6, 0x100, 0, newcommand, 1000)
             command = newcommand
 
@@ -162,3 +163,6 @@ try:
 except KeyboardInterrupt:
     j.quit()
 
+
+# set tabstop=4 shiftwidth=4 expandtab
+# retab
