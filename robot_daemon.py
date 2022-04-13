@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 #
 # Raspberry Pi Maplin Robot Daemon
-# $Id: robot_daemon.py,v 1.6 2022/04/12 18:36:16 bob Exp $
+# $Id: robot_daemon.py,v 1.7 2022/04/13 14:03:23 bob Exp $
 # Author : Bob Rathbone
 # Site   : http://www.bobrathbone.com
 #
 # This class is the daemon class for robotd.py
+#
+#
+# License: GNU V3, See https://www.gnu.org/copyleft/gpl.html
+#
+# Disclaimer: Software is provided as is and absolutly no warranties are implied or given.
+#       The authors shall not be liable for any loss or damage however caused.
 #
 
 import sys, os, time, atexit

@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 #
-# $Id: log_class.py,v 1.6 2022/04/11 08:51:26 bob Exp $
+# $Id: log_class.py,v 1.7 2022/04/13 13:59:13 bob Exp $
 # Raspberry Pi Maplin Robot Arm
 # Logging class
 #
 # Author : Bob Rathbone
 # Site   : http://www.bobrathbone.com
+#
+# License: GNU V3, See https://www.gnu.org/copyleft/gpl.html
+#
+# Disclaimer: Software is provided as is and absolutly no warranties are implied or given.
+#       The authors shall not be liable for any loss or damage however caused.
+#
 
 import os
 import logging

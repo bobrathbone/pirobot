@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
 #
 # Raspberry Pi Maplin Robot Arm
-# $Id: robot.py,v 1.7 2022/04/11 08:51:26 bob Exp $
+# $Id: robot.py,v 1.8 2022/04/13 13:59:13 bob Exp $
 #
 # Author : Bob Rathbone
 # Site   : http://www.bobrathbone.com
+#
+#
+# License: GNU V3, See https://www.gnu.org/copyleft/gpl.html
+#
+# Disclaimer: Software is provided as is and absolutly no warranties are implied or given.
+#       The authors shall not be liable for any loss or damage however caused.
+#
 #
 # Robot keyboard commands
 #   <command> <time>

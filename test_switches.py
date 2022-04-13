@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 # Raspberry Pi Maplin Robot Arm
-# $Id: test_switches.py,v 1.3 2022/04/10 06:40:11 bob Exp $
+# $Id: test_switches.py,v 1.5 2022/04/13 13:59:13 bob Exp $
 #
 # Author : Bob Rathbone
 # Site   : http://www.bobrathbone.com
+#
+# License: GNU V3, See https://www.gnu.org/copyleft/gpl.html
+#
+# Disclaimer: Software is provided as is and absolutly no warranties are implied or given.
+#       The authors shall not be liable for any loss or damage however caused.
+#
 
 import os
 import time
@@ -38,8 +44,8 @@ def setupSwitches():
 	GPIO.setup(WRIST_DOWN,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 	GPIO.setup(GRIP_OPEN,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 	GPIO.setup(GRIP_CLOSE,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-	#GPIO.setup(LIGHT_ON,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-	#GPIO.setup(LIGHT_OFF,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+	GPIO.setup(LIGHT_ON,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+	GPIO.setup(LIGHT_OFF,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 	# Set up switch event processing
 	t = 200
@@ -53,8 +59,8 @@ def setupSwitches():
 	GPIO.add_event_detect(WRIST_DOWN, GPIO.RISING, callback=switch_event, bouncetime=t)
 	GPIO.add_event_detect(GRIP_OPEN,  GPIO.RISING, callback=switch_event, bouncetime=t)
 	GPIO.add_event_detect(GRIP_CLOSE, GPIO.RISING, callback=switch_event, bouncetime=t)
-	#GPIO.add_event_detect(LIGHT_ON,  GPIO.RISING, callback=switch_event, bouncetime=t)
-	#GPIO.add_event_detect(LIGHT_OFF, GPIO.RISING, callback=switch_event, bouncetime=t)
+	GPIO.add_event_detect(LIGHT_ON,  GPIO.RISING, callback=switch_event, bouncetime=t)
+	GPIO.add_event_detect(LIGHT_OFF, GPIO.RISING, callback=switch_event, bouncetime=t)
 
 	return
 

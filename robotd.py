@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Raspberry Pi Maplin Robot Arm
-# $Id: robotd.py,v 1.17 2022/04/13 10:59:05 bob Exp $
+# $Id: robotd.py,v 1.19 2022/04/13 13:59:13 bob Exp $
 #
 # Author : Bob Rathbone
 # Site   : http://www.bobrathbone.com
@@ -8,11 +8,15 @@
 # Credits
 # -------
 # The software to read the joystick to control the Maplin robotic arm 
-# is based on software from www.mybigideas.co.uk (Author unknown)
+# is based on software from Leo White at www.mybigideas.co.uk
+#
+# License: GNU V3, See https://www.gnu.org/copyleft/gpl.html
+#
+# Disclaimer: Software is provided as is and absolutly no warranties are implied or given.
+#       The authors shall not be liable for any loss or damage however caused.
 #
 # Run: sudo apt install python3-usb
 # 
- 
 
 import os
 import signal
@@ -269,7 +273,6 @@ class Robot(Daemon):
                     self.light_on = True
                 if cmd == 'light-off':
                     self.light_on = False
-                #pdb.set_trace()
                 self.sendCommand(self.rctl, commands[cmd])
                 if not "light" in cmd and t > 0:
                     time.sleep(t) #Wait
@@ -313,15 +316,22 @@ class Robot(Daemon):
     # Initialise the JoyStick
     def initJoyStick(self):
         # Wait for a joystick
-        while pygame.joystick.get_count() == 0:
-            count = pygame.joystick.get_count()
-            log.message("Waiting for joystick count = " + str(count), log.DEBUG)
-            time.sleep(10)
-            pygame.joystick.quit()
-            pygame.joystick.init()
+        joystick = None
+       
+        count = 2 
+        while pygame.joystick.get_count() == 0 and count > 0:
+            joysticks = pygame.joystick.get_count()
+            log.message("Waiting for joystick count = " + str(joysticks), log.INFO)
+            time.sleep(3)
+            if joysticks > 0:
+                pygame.joystick.quit()
+                pygame.joystick.init()
+                break
+            count -= 1
 
-        joystick = pygame.joystick.Joystick(0)
-        joystick.init()
+        if joysticks > 1:
+            joystick = pygame.joystick.Joystick(0)
+            joystick.init()
         return joystick
 
     # Setup GPIO to to handle switches
@@ -445,9 +455,16 @@ class Robot(Daemon):
         signal.signal(signal.SIGTERM,self.signalHandler)
         log.message('Robot daemon running pid ' + str(os.getpid()), log.INFO)
         pygame.init()
+
+        # Initialise joystick
         joystick = self.initJoyStick()
+        if joystick != None:
+            log.message('Initialized Joystick :' + joystick.get_name(),log.INFO)
+        else:
+            log.message('No Joystick found!',log.INFO)
+
+        # Set up switches interface
         self.setupSwitches()
-        log.message('Initialized Joystick :' + joystick.get_name(),log.INFO)
 
         armFound = False
         while not armFound: 
@@ -476,7 +493,9 @@ class Robot(Daemon):
                     self.handleEvent(event) 
             
         except KeyboardInterrupt:
-            joystick.quit()
+            sys.exit(0)
+            #joystick.quit()
+            
 
 
 ### Main routine - handles command line arguments ###
