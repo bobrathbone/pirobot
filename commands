@@ -2,8 +2,8 @@ light-on  0
 wait 2
 base-anti-clockwise 1
 base-clockwise 1
-shoulder-down 0.5
-shoulder-up 0.6
+shoulder-down 0.3
+shoulder-up 0.4
 elbow-down 0.5
 elbow-up 0.6
 wrist-down 0.5

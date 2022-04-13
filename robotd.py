@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Raspberry Pi Maplin Robot Arm
-# $Id: robotd.py,v 1.16 2022/04/12 18:36:16 bob Exp $
+# $Id: robotd.py,v 1.17 2022/04/13 10:59:05 bob Exp $
 #
 # Author : Bob Rathbone
 # Site   : http://www.bobrathbone.com
@@ -13,8 +13,8 @@
 # Run: sudo apt install python3-usb
 # 
  
+
 import os
-import pygame
 import signal
 import usb.core
 import sys
@@ -24,12 +24,17 @@ import tty
 import RPi.GPIO as GPIO
 from signal import SIGTERM
 
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
+import pygame
+
 # Class imports
 from robot_daemon import Daemon
 from log_class import Log
 import pdb
 
 log = Log()
+
+_version = "1.0"
 
 # Button to function mapping
 buttonMap={
@@ -500,7 +505,7 @@ if __name__ == "__main__":
             elif cmd == 'status':
                 daemon.status()
             elif cmd == 'version':
-                print ("Version  1.0")
+                print ("Version", _version)
             elif cmd == 'keyboard':
                 robot.key_event()
 
@@ -541,9 +546,6 @@ if __name__ == "__main__":
                     except KeyError:
                         print ("Invalid command: " + cmd + " in " + commandfile)
                         break
-                else:
-                    t = float(sys.argv[2])
-                    robot.execute(t, cmd)
             else:
                 message = "Unknown command: " + sys.argv[1]
                 print (message)
@@ -553,7 +555,7 @@ if __name__ == "__main__":
             sys.exit(0)
     else:
         print ("Usage: %s start|stop|restart|status|version|nodaemon|<command>" % sys.argv[0])
-        print ("Commands: keyboard        - Use keyboard")
+        print ("Commands: keyboard - Use keyboard")
         print ("          execute <file>  - Execute commands in <file>")
         sys.exit(2)
 
