@@ -1,4 +1,4 @@
-light-on  0
+light-on 0
 wait 2
 base-anti-clockwise 1
 base-clockwise 1
@@ -10,3 +10,4 @@ wrist-down 0.5
 grip-close 1.7
 wrist-up 0.5
 grip-open 1.7
+light-off 0

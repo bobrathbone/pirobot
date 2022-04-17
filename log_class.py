@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# $Id: log_class.py,v 1.7 2022/04/13 13:59:13 bob Exp $
+# $Id: log_class.py,v 1.8 2022/04/15 09:17:08 bob Exp $
 # Raspberry Pi Maplin Robot Arm
 # Logging class
 #
@@ -38,21 +38,25 @@ class Log:
     def init(self,module):
         self.module = module
         self.execCommand ("mkdir -p " + self.RobotLibDir )
+
         # Set up loglevel file
         if not os.path.isfile(self.LogLevelFile) or os.path.getsize(self.LogLevelFile) == 0:
             os.popen("echo INFO > " + self.LogLevelFile)
-        self.level = self.getLevel()
+        self.level = self.getLogLevel()
+
+        # Truncate log file
+        logfile = self.LogDir + '/' + self.module + '/' + self.module + '.log'
+        self.execCommand ("echo '' > " + logfile )
 
     # Log message 
     def message(self,message,level):
         # Set up logging, level can be INFO, WARNING, ERROR, DEBUG
-        # pdb.set_trace()
-        ##assert len(self.module) > 0
         logrobot = self.LogDir + "/" + self.module
         self.execCommand ("sudo mkdir -p " +  logrobot)
         self.execCommand ("sudo chown pi:pi " + logrobot)
         logger = logging.getLogger('gipiod')
-        hdlr = logging.FileHandler(self.LogDir + '/' + self.module + '/' + self.module + '.log')
+        hdlr = logging.FileHandler(self.LogDir + '/' + self.module + 
+                '/' + self.module + '.log')
         formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
         hdlr.setFormatter(formatter)
         logger.addHandler(hdlr)
@@ -73,7 +77,7 @@ class Log:
         self.level = level
 
     # Get the log level from the configuration file
-    def getLevel(self):
+    def getLogLevel(self):
         self.loglevel = logging.INFO
         if os.path.isfile(self.LogLevelFile):
             try:

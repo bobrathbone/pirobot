@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Raspberry Pi Maplin Robot Arm
-# $Id: robotd.py,v 1.19 2022/04/13 13:59:13 bob Exp $
+# $Id: robotd.py,v 1.21 2022/04/16 14:33:54 bob Exp $
 #
 # Author : Bob Rathbone
 # Site   : http://www.bobrathbone.com
@@ -260,8 +260,7 @@ class Robot(Daemon):
         global commands
 
         print("execute " + cmd)
-        ##log.message("execute " + cmd, log.DEBUG)
-        ##log.message("Light on =  " + str(self.light_on), log.DEBUG)
+        log.message("Execute " + cmd, log.DEBUG)
 
         try:
             if cmd == 'wait':
@@ -303,7 +302,11 @@ class Robot(Daemon):
     # Send a command to the Robot arm
     def sendCommand(self,rctl,cmd):
         connected = False
-        log.message("sendCommand " + str(cmd), log.DEBUG)
+        sCommand = self.getKey(cmd)
+        if sCommand == None:
+            sCommand = "Joystick"
+        #pdb.set_trace()
+        log.message("sendCommand " + str(sCommand) + ' ' + str(cmd), log.DEBUG)
         if self.checkComms():
             if self.light_on:
                 l = list(cmd)   # Convert to a list
@@ -313,23 +316,19 @@ class Robot(Daemon):
             connected = True
         return connected
 
+    # Get key (command) by value
+    def getKey(self,val):
+        key = None
+        for keyx, value in commands.items():
+             if val == value:
+                 key = keyx
+        return key
+                
     # Initialise the JoyStick
     def initJoyStick(self):
-        # Wait for a joystick
-        joystick = None
-       
-        count = 2 
-        while pygame.joystick.get_count() == 0 and count > 0:
-            joysticks = pygame.joystick.get_count()
-            log.message("Waiting for joystick count = " + str(joysticks), log.INFO)
-            time.sleep(3)
-            if joysticks > 0:
-                pygame.joystick.quit()
-                pygame.joystick.init()
-                break
-            count -= 1
-
-        if joysticks > 1:
+        # Test for a joystick
+        joysticks = pygame.joystick.get_count()
+        if  joysticks > 0:
             joystick = pygame.joystick.Joystick(0)
             joystick.init()
         return joystick
@@ -412,8 +411,8 @@ class Robot(Daemon):
                 self.sendCommand(self.rctl, commands['light-on'])
             else:
                 self.sendCommand(self.rctl, commands['stop'])
-        return
 
+    # Display list of keyboard commands
     def displayKeys(self):
         global keyMap
         print ("Key Command")
