@@ -1,5 +1,5 @@
-# Radio systemd script
-# $Id: robotd.service,v 1.2 2022/04/14 11:46:45 bob Exp $
+# Robot daemon (robotd) systemd script
+# $Id: robotd.service,v 1.3 2022/04/18 08:59:04 bob Exp $
 [Unit]
 Description=Robot daemon
 After=network.target

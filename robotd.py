@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Raspberry Pi Maplin Robot Arm
-# $Id: robotd.py,v 1.21 2022/04/16 14:33:54 bob Exp $
+# $Id: robotd.py,v 1.22 2022/04/18 08:59:03 bob Exp $
 #
 # Author : Bob Rathbone
 # Site   : http://www.bobrathbone.com
@@ -452,6 +452,7 @@ class Robot(Daemon):
     def run(self):
         log.init("robot")
         signal.signal(signal.SIGTERM,self.signalHandler)
+        signal.signal(signal.SIGHUP,self.signalHandler)
         log.message('Robot daemon running pid ' + str(os.getpid()), log.INFO)
         pygame.init()
 

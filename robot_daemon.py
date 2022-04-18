@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Raspberry Pi Maplin Robot Daemon
-# $Id: robot_daemon.py,v 1.7 2022/04/13 14:03:23 bob Exp $
+# $Id: robot_daemon.py,v 1.8 2022/04/18 08:59:03 bob Exp $
 # Author : Bob Rathbone
 # Site   : http://www.bobrathbone.com
 #
@@ -100,7 +100,7 @@ class Daemon:
         if daemonize:
             self.daemonize()
         else:
-            print("Radio running pid", os.getpid())
+            print("robotd running pid", os.getpid())
 
         self.writepidfile()
         self.run()
