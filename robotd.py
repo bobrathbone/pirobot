@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Raspberry Pi Maplin Robot Arm
-# $Id: robotd.py,v 1.22 2022/04/18 08:59:03 bob Exp $
+# $Id: robotd.py,v 1.23 2022/04/20 08:37:54 bob Exp $
 #
 # Author : Bob Rathbone
 # Site   : http://www.bobrathbone.com
@@ -326,11 +326,16 @@ class Robot(Daemon):
                 
     # Initialise the JoyStick
     def initJoyStick(self):
-        # Test for a joystick
-        joysticks = pygame.joystick.get_count()
-        if  joysticks > 0:
-            joystick = pygame.joystick.Joystick(0)
-            joystick.init()
+        # Wait for a joystick
+        while pygame.joystick.get_count() == 0:
+            count = pygame.joystick.get_count()
+            log.message("Waiting for joystick count = " + str(count), log.DEBUG)
+            time.sleep(10)
+            pygame.joystick.quit()
+            pygame.joystick.init()
+
+        joystick = pygame.joystick.Joystick(0)
+        joystick.init()
         return joystick
 
     # Setup GPIO to to handle switches
